@@ -1,0 +1,27 @@
+{
+    "name": "urukalo/ch-test",
+    "description": "CHtest.",
+    "authors": [
+        {
+            "name": "milan urukalo",
+            "email": "milan@urukalo.com"
+        }
+    ],
+    "require": {
+        "slim/slim": "2.6.2",
+        "twig/twig": "v1.23.1",
+        "cartalyst/sentinel": "v2.0.7",
+        "illuminate/database": "v5.1.22",
+        "illuminate/events": "v5.1.22",
+        "symfony/http-foundation": "v2.7.6",
+        "ircmaxell/password-compat": "v1.0.4"
+    },
+    "autoload":{
+        "psr-4":{
+            "urukalo\\CH\\":"app/"
+        }
+    },
+    "require-dev": {
+        "symfony/var-dumper": "v2.7.6"
+    }
+}
