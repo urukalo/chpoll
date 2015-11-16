@@ -1,66 +1,64 @@
 <?php
 
-
-
+//@todo -- replace 'echo' with slim flash-data (there is some bug now)
+//logout user
 $app->get('/logout', function () use ($app) {
     $app->container->auth->logout();
 
     echo 'Logged out successfuly.';
 });
 
+//login form
 $app->get('/login', function () use ($app) {
     $app->twig->display('login.html.twig');
 });
 
+//login
 $app->post('/login', function () use ($app) {
     $data = $app->request->post();
     $remember = isset($data['remember']) && $data['remember'] == 'on' ? true : false;
-    
+
     try {
         if (!$app->container->auth->authenticate([
-                'email' => $data['email'],
-                'password' => $data['password'],
-            ], $remember)) {
+                    'email' => $data['email'],
+                    'password' => $data['password'],
+                        ], $remember)) {
 
             echo 'Invalid email or password.';
-
-            
         } else {
             echo 'You\'re logged in';
-
-            
+            $app->redirect('/');
         }
     } catch (Cartalyst\Sentinel\Checkpoints\ThrottlingException $ex) {
         echo "Too many attempts!";
-
-        
-    } catch (Cartalyst\Sentinel\Checkpoints\NotActivatedException $ex){
+    } catch (Cartalyst\Sentinel\Checkpoints\NotActivatedException $ex) {
         echo "Please activate your account before trying to log in";
-        
-        
     }
-     $app->twig->display('login.html.twig');
+    $app->redirect('/login');
 });
 
+//home
 $app->get('/', function () use ($app) {
-    
+
     $app->twig->display('home.html.twig');
 });
 
+//register form
 $app->get('/register', function () use ($app) {
-    
     $app->twig->display('register.html.twig');
 });
 
+//register
 $app->post('/register', function () use ($app) {
     // we leave validation for another time
     $data = $app->request->post();
 
-    $role = $app->container->auth->findRoleByName('Admin');
+    //get user role
+    $role = $app->container->auth->findRoleByName('User');
 
     if ($app->container->auth->findByCredentials([
-        'login' => $data['email'],
-    ])) {
+                'login' => $data['email'],
+            ])) {
         echo 'User already exists with this email.';
 
         return;
@@ -72,11 +70,11 @@ $app->post('/register', function () use ($app) {
         'email' => $data['email'],
         'password' => $data['password'],
         'permissions' => [
-            'user.delete' => false,
+            'user.delete' => false, //direct premision, override role premision
         ],
     ]);
 
-    // attach the user to the admin role
+    // attach the user to the role
     $role->users()->attach($user);
 
     // create a new activation for the registered user

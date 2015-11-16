@@ -3,7 +3,7 @@
 namespace urukalo\CH;
 
 /**
- * Description of bootstrapApp
+ * wrap slim framework to make connections with Sentinel and Eloquent and Twig on one place
  *
  * @author milan
  */
@@ -46,7 +46,7 @@ class bootstrapApp {
     }
 
     /**
-     * add auth to container
+     * add auth to container -- using Sentinel
      * @param type $auth
      */
     public function connectAuth($auth) {
@@ -58,8 +58,7 @@ class bootstrapApp {
      * just to separate routes in logical parts
      */
     public function loadRoutes() {
-        $app = $this->app;
-
+        $app = $this->app; //little hack to make rutes without $this->
         //fast routes split 
         include_once 'routes/site.php';
         include_once 'routes/user.php';

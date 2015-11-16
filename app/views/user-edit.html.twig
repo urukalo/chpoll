@@ -8,17 +8,17 @@
                     <div class="panel-body">
                         <form action="/register" method="POST" role="form" id="subscriptionForm">
                             <fieldset>
-                                <legend>Sign up</legend>
+                                <legend>Administrate user</legend>
                                 <div class="col-md-12 form-group">
-                                    <input class="form-control" placeholder="First name" name="firstname" type="text" autofocus value="">
+                                    <input class="form-control" placeholder="First name" name="firstname" type="text" autofocus value="{{user.first_name?user.first_name:''}}">
                                 </div>
 
                                 <div class="col-md-12 form-group">
-                                    <input class="form-control" placeholder="Last name" name="lastname" type="text" autofocus value="">
+                                    <input class="form-control" placeholder="Last name" name="lastname" type="text" autofocus value="{{user.last_name?user.last_name:''}}">
                                 </div>
 
                                 <div class="col-md-12 form-group">
-                                    <input class="form-control" placeholder="E-mail" name="email" type="email" value="">
+                                    <input class="form-control" placeholder="E-mail" name="email" type="email" value="{{user.email?user.email:''}}">
                                 </div>
 
                                 <div class="col-md-12 form-group">
@@ -28,10 +28,18 @@
                                 <div class="col-md-12 form-group">
                                     <input class="form-control" placeholder="Confirm Password" name="password_confirmation" type="password" value="">
                                 </div>
+                                <div class="col-md-12 form-group">
+                                    <select name="role">
+                                        {%for role in roles%}
+                                            <option value="{{role.id}}" >{{role.name}}</option>
+                                        {%endfor%}
+                                    </select>
+                                </div>
+
                             </fieldset>
 
                             <i class="divider"></i>
-                            <button class="btn btn-primary mbtn" style="margin-left: 15px;">Join</button>
+                            <button class="btn btn-primary mbtn" style="margin-left: 15px;">Save</button>
                         </form>
                     </div>
                 </div>
