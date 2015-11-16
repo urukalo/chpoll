@@ -63,7 +63,6 @@ class bootstrapApp {
         include_once 'routes/site.php';
         include_once 'routes/user.php';
         include_once 'routes/admin.php';
-        include_once 'routes/poll.php';
 
         //$this->app = $app;
     }
@@ -78,8 +77,14 @@ class bootstrapApp {
 
     private function addGlobalUser() {
         $user = $this->app->container->auth->check();
-        if ($user)
-            $this->app->container->twig->addGlobal('user', $user);
+
+        if ($user) {
+            $admin = $this->app->container->auth->inRole('admin');
+            if ($admin)
+                $this->app->container->twig->addGlobal('admin', $admin);
+            
+                $this->app->container->twig->addGlobal('user', $user);
+        }
     }
 
     /**

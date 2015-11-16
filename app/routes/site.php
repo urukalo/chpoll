@@ -6,6 +6,8 @@ $app->get('/logout', function () use ($app) {
     $app->container->auth->logout();
 
     echo 'Logged out successfuly.';
+
+    $app->redirect('/');
 });
 
 //login form
@@ -39,8 +41,16 @@ $app->post('/login', function () use ($app) {
 
 //home
 $app->get('/', function () use ($app) {
+    $user = $this->app->container->auth->check();
 
-    $app->twig->display('home.html.twig');
+    if ($user) {
+        $admin = $this->app->container->auth->inRole('admin');
+        if ($admin)
+            $app->redirect('/admin/poll');
+        else
+            $app->redirect('/user/poll');
+    } else
+        $app->twig->display('home.html.twig');
 });
 
 //register form
@@ -80,8 +90,8 @@ $app->post('/register', function () use ($app) {
     // create a new activation for the registered user
     $activation = (new Cartalyst\Sentinel\Activations\IlluminateActivationRepository)->create($user);
 
-    mail($data['email'], "Activate your account", "Click on the link below \n <a href='http://vaprobash.dev/user/activate?code={$activation->code}&login={$user->id}'>Activate your account</a>");
-    echo "Please check your email to complete your account registration. (or just use this <a href='http://vaprobash.dev/user/activate?code={$activation->code}&login={$user->id}'>link</a>)";
+    mail($data['email'], "Activate your account", "Click on the link below \n <a href='http://chpool.dev/user/activate?code={$activation->code}&login={$user->id}'>Activate your account</a>");
+    echo "Please check your email to complete your account registration. (or just use this <a href='http://chpoll.dev/user/activate?code={$activation->code}&login={$user->id}'>link</a>)";
 });
 
 

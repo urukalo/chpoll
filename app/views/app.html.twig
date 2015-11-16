@@ -28,12 +28,30 @@
             <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                 <ul class="nav navbar-nav">
                     <li><a href="/">Home</a></li>
-                        {%if user %}
+
+                    {%if user %}
+
                         <li><a href="/logout">Logout</a></li>
-                        {%else%}
+
+                        {%if admin %}
+
+                            <li><a href="/admin/poll">Administrate Polls</a></li>
+                            <li><a href="/admin/user">Administrate Users</a></li>
+
+                        {%else %}
+
+                            <li><a href="/user/poll">Polls</a></li>
+
+                        {%endif%}
+
+                    {%else%}
+
                         <li><a href="/login">Login</a></li>
                         <li><a href="/register">Register</a></li>
-                        {%endif%}
+
+                    {%endif%}
+
+
                 </ul>
             </div>
         </div>

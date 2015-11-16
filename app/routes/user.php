@@ -53,7 +53,7 @@ $app->get('/user/poll(/:id)', function ($id = null) use ($app) {
         $pollDataVote = clone $pollData;
 
         //check is voted
-        if ($pollDataVote->whereHas('user_polls', function ($query) {
+        if ($pollDataVote->whereHas('user_polls', function ($query) use ($user){
                     $query->where('user_polls.idUser', $user->id);
                 })->find((int) $id)) {
 
@@ -71,10 +71,10 @@ $app->get('/user/poll(/:id)', function ($id = null) use ($app) {
                 return;
             }
             //vote
-            $pollData->find((int) $id);
             $app->twig->display('poll-vote.html.twig', array(
-                "poll" => $pollData,
+                "poll" =>  $pollData->find((int)$id),
             ));
+            $app->redirect('/');
         }
     } else {
 
@@ -84,3 +84,14 @@ $app->get('/user/poll(/:id)', function ($id = null) use ($app) {
 });
 
 
+$app->post('/user/poll/:idPoll', function($idPoll)use($app){
+    $data = $app->request->post();
+    
+    $user = $this->app->container->auth->check();
+    
+    $vote = new urukalo\CH\UserPolls();
+    $vote->idPoll = $idPoll;
+    $vote->idUser = $user->id;
+    $vote->idAnswerSelected = $data['answers'];
+    $vote->save();
+});

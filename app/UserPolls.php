@@ -9,6 +9,8 @@ namespace urukalo\CH;
  */
 class UserPolls extends \Illuminate\Database\Eloquent\Model {
 
+    public $timestamps = false;
+    
     public function poll() {
         return $this->belongsTo('urukalo\CH\Poll', 'idPoll');
     }

@@ -6,22 +6,22 @@
             <div class="col-md-6 col-md-offset-3">
                 <div class="login-panel panel panel-default">
                     <div class="panel-body">
-                        <form action="/poll" method="POST" role="form" id="subscriptionForm">
+                        <form action="/admin/poll/{{poll.id}}" method="POST" role="form" id="subscriptionForm">
                             <fieldset>
                                 <legend>Administrate Poll</legend>
                                 <div class="col-md-12 form-group">
-                                    <input class="form-control" placeholder="Name" name="name" type="text" value="">
+                                    <input class="form-control" placeholder="Name" name="name" type="text" value="{{poll.name}}">
                                 </div>
 
                                 <div class="col-md-12 form-group">
-                                    <input class="form-control" placeholder="Question?" name="question" type="text" value="">
+                                    <input class="form-control" placeholder="Question?" name="question" type="text" value="{{poll.question}}">
                                 </div>
+                                {%for ans in poll.answers%}
                                 <div class="col-md-12 form-group">
-                                    <input class="form-control" placeholder="Answer1" name="answer[][text]" type="text" value="">
+                                    <input class="form-control" placeholder="Answer1" name="answer[][{{ans.id}}]" type="text" value="{{ans.text}}">
                                 </div>
-                                <div class="col-md-12 form-group">
-                                    <input class="form-control" placeholder="Answer2" name="answer[][text]" type="text" value="">
-                                </div>
+                                {%endfor%}
+                               
 
                                 <div class="col-md-12 ">
                                     <input id="active" name="active" type="checkbox" >

@@ -7,15 +7,16 @@
                 <div class="login-panel panel panel-default">
                     <div class="panel-body">
 
-                        <ul id="users">
+                        <ul id="navigation">
 
-                            {% for item in users %}
-                                <li><a href="/admin/user/{{ item.id }}">{{ item.email }}</a></li>
+                            {% for item in poll %}
+                                <li><a href="/admin/poll/{{ item.id }}">{{ item.name }}</a></li>
                                 {% endfor %}
-                        </ul>
- 
+                            
                             <hr>
-                             <li><a href="/admin/user/add">Add new</a></li>
+                             <li><a href="/admin/poll/add">Add new</a></li>
+                        </ul>
+
                     </div>
                 </div>
             </div>
